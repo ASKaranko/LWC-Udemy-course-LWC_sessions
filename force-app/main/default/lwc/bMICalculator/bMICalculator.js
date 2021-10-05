@@ -1,7 +1,7 @@
 import { LightningElement, track } from 'lwc';
 
 export default class BMICalculator extends LightningElement {
-    cardTitle = 'BMI Calculator';
+    cardTitle = 'BMI Calculator in Dev Server';
     @track bmiData = {
         weight: 0,
         height: 0,
