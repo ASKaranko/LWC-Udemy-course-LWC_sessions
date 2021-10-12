@@ -6,6 +6,7 @@ export default class CarSearchResult extends LightningElement {
 
     @api carTypeId;
     @track cars;
+    selectedCarId;
 
     @wire(getCars, {carTypeId: '$carTypeId'})
     wiredCars({data, error}) {
@@ -21,6 +22,10 @@ export default class CarSearchResult extends LightningElement {
             return true;
         }
         return false;
+    }
+
+    carSelectHandler(event) {
+        this.selectedCarId = event.detail;
     }
 
     showToast(title, message, variant) {
