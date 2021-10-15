@@ -1,7 +1,8 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
     <aura:attribute name="messages" type="List"/>
 
-    <lightning:messageChannel 
+    <lightning:messageChannel
+        aura:id="messageChannel" 
         type="messageDemo__c" 
         scope="APPLICATION" 
         onMessage="{!c.messageHandler}"
@@ -18,7 +19,7 @@
         <div class="slds-p-around_medium">
             <lightning:layout>
                 <lightning:layoutItem size="9" class="slds-m-right_medium">
-                    <lightning:input type="text" variant="label-hidden"></lightning:input>
+                    <lightning:input type="text" variant="label-hidden" aura:id="inputBox"></lightning:input>
                 </lightning:layoutItem>
                 <lightning:layoutItem size="3" class="slds-m-right_medium">
                     <lightning:button 

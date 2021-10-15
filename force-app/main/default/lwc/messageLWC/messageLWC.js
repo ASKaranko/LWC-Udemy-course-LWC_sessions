@@ -1,12 +1,31 @@
 import { LightningElement, track, wire } from 'lwc';
 import messageDemo from '@salesforce/messageChannel/messageDemo__c';
-import { publish, MessageContext } from 'lightning/messageService';
+import { 
+    publish, 
+    MessageContext, 
+    subscribe, 
+    unsubscribe, 
+    APPLICATION_SCOPE } from 'lightning/messageService';
 
 export default class MessageLWC extends LightningElement {
     @track messages = [];
+    subscription = null;
 
     @wire(MessageContext)
     messageContext;
+
+    connectedCallback() {
+        if (!this.subscription) {
+            this.subscription = subscribe(this.messageContext, messageDemo, (payload) => {
+                this.messageHandler(payload);
+            }, {scope: APPLICATION_SCOPE});
+        }
+    }
+
+    disconnectedCallback() {
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
 
     sendHandler() {
         const inputElement = this.template.querySelector('lightning-input');
@@ -18,10 +37,21 @@ export default class MessageLWC extends LightningElement {
                 from: 'LWC'
             });
             const messagePayload = {
-                message: msg
+                message: msg,
+                from: 'LWC'
             };
             publish(this.messageContext, messageDemo, messagePayload);
             inputElement.value = '';
+        }
+    }
+
+    messageHandler(message) {
+        if (message && message.from !== 'LWC') {
+            this.messages.push({
+                id: this.messages.length,
+                value: message.message,
+                from: 'Aura'
+            });
         }
     }
 }

@@ -7,4 +7,8 @@
         <fieldName>message</fieldName>
         <description>Message text</description>
     </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>from</fieldName>
+        <description>Component origin</description>
+    </lightningMessageFields>
 </LightningMessageChannel>
