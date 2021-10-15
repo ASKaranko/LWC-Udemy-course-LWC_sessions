@@ -6,7 +6,7 @@ import {
     subscribe, 
     unsubscribe, 
     APPLICATION_SCOPE } from 'lightning/messageService';
-
+import hasSendPermission from '@salesforce/customPermission/Send_Message';
 export default class MessageLWC extends LightningElement {
     @track messages = [];
     subscription = null;
@@ -53,5 +53,9 @@ export default class MessageLWC extends LightningElement {
                 from: 'Aura'
             });
         }
+    }
+
+    get disableSendButton() {
+        return !hasSendPermission;
     }
 }

@@ -2,7 +2,7 @@
     <lightning-card title="Message Channel LWC">
         <div class="slds-p-around_medium">
             <template for:each={messages} for:item="message">
-                <div key={message.id} class="message">
+                <div key={message.id} class="askaranko-card">
                     {message.from} > {message.value}
                 </div>
             </template>
@@ -17,6 +17,7 @@
                         label="Send" 
                         icon-name="utility:send" 
                         variant="brand"
+                        disabled={disableSendButton}
                         onclick={sendHandler}>
                     </lightning-button>
                 </lightning-layout-item>

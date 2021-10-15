@@ -1,3 +1,5 @@
+@import "c/cardStyle";
+
 .message {
     background-color: cadetblue;
     padding: 1rem;

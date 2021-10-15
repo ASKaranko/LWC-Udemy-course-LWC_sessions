@@ -1,0 +1,23 @@
+.askaranko-card {
+    padding: 1rem;
+    background: gold;
+    border-radius: 4px;
+    margin: .5rem;
+    transition: .5s all;
+}
+
+.askaranko-card:hover {
+    background: aliceblue;
+}
+
+.askaranko-card-title {
+    font-size: large;
+    color: darkblue;
+    text-transform: uppercase;
+}
+
+.askaranko-card-description {
+    margin-top: 8px;
+    font-style: normal;
+    color: #161920;
+}
