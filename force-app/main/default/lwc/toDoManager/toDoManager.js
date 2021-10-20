@@ -1,4 +1,6 @@
 import { LightningElement, track } from 'lwc';
+import addTodo from '@salesforce/apex/toDoController.addTodo';
+import getCurrentTodos from '@salesforce/apex/toDoController.getCurrentTodos';
 
 export default class ToDoManger extends LightningElement {
     time = '17:00';
@@ -12,6 +14,8 @@ export default class ToDoManger extends LightningElement {
         setInterval(() => {
             this.getTime();
         }, 60 * 1000);
+        //this.populateToDos();
+        this.fetchToDos();
     }
 
     getTime() {
@@ -42,13 +46,21 @@ export default class ToDoManger extends LightningElement {
         const inputBox = this.template.querySelector('lightning-input');
 
         const todo = {
-            todoId: this.todos.length,
+            //todoId: this.todos.length,
             todoName: inputBox.value,
             done: false,
-            todoDate: new Date()
+            //todoDate: new Date()
         };
 
-        this.todos.push(todo);
+        addTodo({payload: JSON.stringify(todo)})
+            .then(response => {
+                console.log('Item inserted successfully ' + response);
+                this.fetchToDos();
+            })
+            .catch(error => {
+                console.log('Error in inserting todo item ' + error.body.message);
+            });
+        //this.todos.push(todo);
         inputBox.value = '';
     }
 
@@ -62,5 +74,49 @@ export default class ToDoManger extends LightningElement {
         return this.todos && this.todos.length > 0
             ? this.todos.filter((item) => item.done)
             : null;
+    }
+
+    fetchToDos() {
+        getCurrentTodos()
+            .then(result => {
+                if (result) {
+                    this.todos = result;
+                }
+            })
+            .catch(error => {
+                console.log('Error in fetching todo items ' + error.body.message);
+            });
+    }
+
+    populateToDos() {
+        const todos = [
+            {
+                todoId: 0,
+                todoName: 'Feed the dog',
+                done: false,
+                todoDate: new Date()
+            },
+            {
+                todoId: 1,
+                todoName: 'Wash the car',
+                done: false,
+                todoDate: new Date()
+            },
+            {
+                todoId: 2,
+                todoName: 'Make an LWC project',
+                done: true,
+                todoDate: new Date()
+            },
+        ];
+        this.todos = todos;
+    }
+
+    updateHandler() {
+        this.fetchToDos();
+    }
+
+    deleteHandler() {
+        this.fetchToDos();
     }
 }
